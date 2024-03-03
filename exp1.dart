@@ -1,99 +1,97 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(QuitSmokeApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
+class QuitSmokeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Experiment1',
+      title: 'CraveCrush',
       theme: ThemeData(
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 0, 0, 0)),
-        useMaterial3: true,
+        primaryColor: Colors.yellow,
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.yellow,
+          accentColor: Colors.green,
+        ),
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.blue,
+        ),
       ),
-      home: const MyHomePage(title: 'MAD pwa Experiment 1'),
-      debugShowCheckedModeBanner: false,
+      home: QuitSmokeHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
-
+class QuitSmokeHomePage extends StatefulWidget {
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  _QuitSmokeHomePageState createState() => _QuitSmokeHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _QuitSmokeHomePageState extends State<QuitSmokeHomePage> {
+  int _selectedIndex = 0;
 
-  void _incrementCounter() {
+  void _onItemTapped(int index) {
     setState(() {
-      _counter++;
+      _selectedIndex = index;
     });
+  }
+
+  void _showSnackBar() {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Incremented value!'),
-        duration: Duration(milliseconds: 1000),
-        showCloseIcon: true,
-        backgroundColor: Colors.grey,
+      SnackBar(
+        content: Text('you are doing great'),
+        duration: Duration(seconds: 2),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    Color accentColor = Theme.of(context).colorScheme.secondary;
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey[300],
-        foregroundColor: Colors.white,
-        title: Center(
-          child: Text(widget.title),
+        title: Text(
+          'Quit Smoke Please',
+          style: TextStyle(color: Colors.white),
         ),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed  this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+        child: Text(
+          'Start your new journey today!',
+          style: TextStyle(fontSize: 20.0),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-        backgroundColor: Colors.blueGrey[300],
-        foregroundColor: Colors.white,
-        elevation: 5,
-        splashColor: Colors.black,
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history),
+            label: 'Reload',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: accentColor,
+        onTap: _onItemTapped,
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.blueGrey[100],
-        child: Container(
-            height: 50.0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const <Widget>[
-                Icon(Icons.thumb_up_sharp),
-                Icon(Icons.thumb_down),
-                Icon(Icons.share),
-              ],
-            )),
-      ), // T
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _showSnackBar();
+        },
+        backgroundColor: accentColor,
+        tooltip: 'Increment',
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
